@@ -24,15 +24,17 @@ namespace L20250218
         }
 
         public bool isRunning = true;
-
+        public int level = 0;
+        public int maxLevel = 3;
         static ConsoleKeyInfo readKey;
 
-        World world;
+        public World world;
 
-        public void Load()
+        public Scene[] scenes = new Scene[3];
+
+        public void InitScene()
         {
-            string[] scene =
-            {
+            string[] map01 = {
                 "**********",
                 "*P       *",
                 "*        *",
@@ -44,36 +46,69 @@ namespace L20250218
                 "*       G*",
                 "**********"
             };
+            scenes[0] = new Scene(map01);
 
+            string[] map02 = {
+                "**********",
+                "*P       *",
+                "*        *",
+                "*        *",
+                "*    M   *",
+                "*        *",
+                "*        *",
+                "* M      *",
+                "*       G*",
+                "**********"
+            };
+            scenes[1] = new Scene(map02);
+
+            string[] map03 = {
+                "**********",
+                "*P       *",
+                "*      M *",
+                "*        *",
+                "*    M   *",
+                "*        *",
+                "*        *",
+                "* M      *",
+                "*       G*",
+                "**********"
+            };
+            scenes[2] = new Scene(map03);
+        }
+
+        public void Load(Scene scene)
+        {
+            string[] map = scene.map;
             world = new World();
 
-            for(int y=0; y<scene.Length; y++)
+            for(int y=0; y< map.Length; y++)
             {
-                for(int x=0; x < scene[y].Length; x++)
+                for(int x=0; x < map[y].Length; x++)
                 {
-                    if (scene[y][x] == '*')
+                    if (map[y][x] == '*')
                     {
-                        GameObject wall = new Wall(x, y, scene[y][x]);
+                        GameObject wall = new Wall(x, y, map[y][x]);
                         world.Instantiate(wall);
                     }
-                    else if (scene[y][x] == ' ')
+                    else if (map[y][x] == ' ')
                     {
-                        GameObject floor = new Floor(x, y, scene[y][x]);
+                        GameObject floor = new Floor(x, y, map[y][x]);
                         world.Instantiate(floor);
                     }
-                    else if (scene[y][x] == 'P')
+                    else if (map[y][x] == 'P')
                     {
-                        GameObject player = new Player(x, y, scene[y][x]);
+                        GameObject player = new Player(x, y, map[y][x]);
                         world.Instantiate(player);
                     }
-                    else if (scene[y][x] == 'M')
+                    else if (map[y][x] == 'M')
                     {
-                        GameObject monster = new Monster(x, y, scene[y][x]);
+                        GameObject monster = new Monster(x, y, map[y][x]);
                         world.Instantiate(monster);
                     }
-                    else if (scene[y][x] == 'G')
+                    else if (map[y][x] == 'G')
                     {
-                        GameObject goal = new Goal(x, y, scene[y][x]);
+                        GameObject goal = new Goal(x, y, map[y][x]);
                         world.Instantiate(goal);
                     }
                 }
@@ -101,9 +136,9 @@ namespace L20250218
         {
             while (isRunning)
             {
+                Render();
                 Input();
                 Update();
-                Render();
             }
         }
 
@@ -117,6 +152,25 @@ namespace L20250218
             {
                 return false;
             }
+        }
+
+        public void GameOver()
+        {
+            isRunning = false;
+            Console.Clear();
+            Console.WriteLine("GameOver");
+        }
+
+        public void GameClear()
+        {
+            isRunning = false;
+            Console.Clear();
+            Console.WriteLine("GameClear");
+        }
+
+        public void NextLevel()
+        {
+            Load(scenes[level]);
         }
     }
 }

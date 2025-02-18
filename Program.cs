@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            Engine.Instance.Load();
+            Engine.Instance.InitScene();
+            Engine.Instance.Load(Engine.Instance.scenes[0]);
             Engine.Instance.Run();
         }
     }

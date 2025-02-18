@@ -17,19 +17,44 @@ namespace L20250218
 
         public override bool IsCollide()
         {
-            if(X <1 || X > 8 || Y<1 || Y>8)
+            foreach (GameObject gameObject in Engine.Instance.world.gameObjects)
             {
-                return true;
+                if (gameObject is Monster)
+                {
+                    if (gameObject.X == X && gameObject.Y == Y)
+                    {
+                        Engine.Instance.GameOver();
+                    }                    
+                }
+                else if(gameObject is Goal)
+                {
+                    if (gameObject.X == X && gameObject.Y == Y)
+                    {
+                        Engine.Instance.level++;
+                        if(Engine.Instance.level == Engine.Instance.maxLevel)
+                        {
+                            Engine.Instance.GameClear();
+                        }
+                        else
+                        {
+                            Engine.Instance.NextLevel();
+                        }                            
+                    }
+                }
+                else if (gameObject is Wall)
+                {
+                    if (gameObject.X == X && gameObject.Y == Y)
+                    {
+                        return true;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public override void Update()
         {
-            if(Engine.Instance.GetKeyDown(ConsoleKey.W) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
+            if (Engine.Instance.GetKeyDown(ConsoleKey.W) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
             {
                 Y--;
                 if (IsCollide())
