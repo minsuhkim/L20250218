@@ -19,31 +19,25 @@ namespace L20250218
         {
             foreach (GameObject gameObject in Engine.Instance.world.gameObjects)
             {
-                if (gameObject is Monster)
+                if (gameObject.X == X && gameObject.Y == Y)
                 {
-                    if (gameObject.X == X && gameObject.Y == Y)
+                    if (gameObject is Monster)
                     {
                         Engine.Instance.GameOver();
-                    }                    
-                }
-                else if(gameObject is Goal)
-                {
-                    if (gameObject.X == X && gameObject.Y == Y)
+                    }
+                    else if (gameObject is Goal)
                     {
                         Engine.Instance.level++;
-                        if(Engine.Instance.level == Engine.Instance.maxLevel)
+                        if (Engine.Instance.level == Engine.Instance.maxLevel)
                         {
                             Engine.Instance.GameClear();
                         }
                         else
                         {
-                            Engine.Instance.NextLevel();
-                        }                            
+                            Engine.Instance.LevelUp();
+                        }
                     }
-                }
-                else if (gameObject is Wall)
-                {
-                    if (gameObject.X == X && gameObject.Y == Y)
+                    else if (gameObject is Wall)
                     {
                         return true;
                     }

@@ -10,7 +10,7 @@ namespace L20250218
     {
         private Engine() {}
 
-        static private Engine instance;
+        static Engine instance;
         static public Engine Instance
         {
             get
@@ -25,12 +25,12 @@ namespace L20250218
 
         public bool isRunning = true;
         public int level = 0;
-        public int maxLevel = 3;
+        public int maxLevel = 4;
         static ConsoleKeyInfo readKey;
 
         public World world;
 
-        public Scene[] scenes = new Scene[3];
+        public Scene[] scenes = new Scene[4];
 
         public void InitScene()
         {
@@ -75,6 +75,20 @@ namespace L20250218
                 "**********"
             };
             scenes[2] = new Scene(map03);
+
+            string[] map04 = {
+                "**********",
+                "*P       *",
+                "*      M *",
+                "*        *",
+                "*    M   *",
+                "*        *",
+                "*     M  *",
+                "* M      *",
+                "*       G*",
+                "**********"
+            };
+            scenes[3] = new Scene(map04);
         }
 
         public void Load(Scene scene)
@@ -168,7 +182,7 @@ namespace L20250218
             Console.WriteLine("GameClear");
         }
 
-        public void NextLevel()
+        public void LevelUp()
         {
             Load(scenes[level]);
         }

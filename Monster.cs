@@ -19,9 +19,14 @@ namespace L20250218
         {
             foreach (GameObject gameObject in Engine.Instance.world.gameObjects)
             {
-                if (gameObject is Wall)
+                if (gameObject.X == X && gameObject.Y == Y)
                 {
-                    if (gameObject.X == X && gameObject.Y == Y)
+                    if (gameObject is Player)
+                    {
+                        Engine.Instance.GameOver();
+                    }
+                    
+                    else if (gameObject is Wall)
                     {
                         return true;
                     }
